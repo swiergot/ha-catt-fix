@@ -29,4 +29,4 @@ That's it. Continue to use CATT for casting HA to your display but dismantle any
 
 The reason for the timeout is that nothing is being played so the receiver application gets closed. The solution for that is to add a hidden Cast media player component and play an image every 9 minutes. That is not new, it has been used in the official Home Assistant Cast integration for quite a long time.
 
-However, there's one problem with DashCast (which is used by CATT to cast websites). It replaces itself with the target website (`window.location = url`). It means it looses control of the display. That's why this solution is to embed receiver code into the Home Assistant UI itself and do the dummy playback there.
+However, there's one problem with DashCast (which is used by CATT to cast websites). It replaces itself with the target website (`window.location = url`). It means it looses control of the display. That's why this solution is to embed the receiver code into the Home Assistant UI itself and do the dummy playback there.
