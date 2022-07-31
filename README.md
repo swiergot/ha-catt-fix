@@ -3,11 +3,9 @@ This is a solution for the timeout issue when casting Home Assistant using CATT.
 
 ## Installation
 
-1. Download `ha-catt-fix.js` and put it in `/config/www/community/ha-catt-fix/`.
+1. It is recommended to install this with HACS by adding a custom repository. Alternatively, download `ha-catt-fix.js` and put it inside `/config/www/`.
 
-   Note: Installation through HACS is not supported yet.
-
-2. Add it as a resource to your Home Assistant UI.
+2. Add it as a resource to your Home Assistant UI. Follow the instructions displayed by HACS. If you are not installing with HACS, then:
 
    If you use the YAML mode, put the following in your `configuration.yaml`:
 
@@ -15,7 +13,7 @@ This is a solution for the timeout issue when casting Home Assistant using CATT.
    lovelace:
      mode: yaml
      resources:
-       - url: /hacsfiles/ha-catt-fix/ha-catt-fix.js
+       - url: /local/ha-catt-fix.js
          type: module
    ```
 
