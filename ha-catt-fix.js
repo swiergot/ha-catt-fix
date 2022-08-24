@@ -33,13 +33,26 @@ function removeTouchControls() {
   var controls = document.body.querySelector("touch-controls");
   if (controls) {
     controls.remove();
+    observer1.disconnect();
   }
 }
 
-function setupMutationObserver() {
+function removeStyleDiv() {
+  Array.from(document.getElementsByTagName("div")).forEach(function(el) {
+    if (el.innerHTML.includes("--cast-controls")) {
+      el.remove();
+      observer2.disconnect();
+    }
+  });
+}
+
+function setupMutationObservers() {
   // This is to allow the touch display to work
-  const observer = new MutationObserver(removeTouchControls);
-  observer.observe(document.body, { childList: true, subtree: true });
+  observer1 = new MutationObserver(removeTouchControls);
+  observer1.observe(document.body, { childList: true, subtree: true });
+  // This is to enable scrolling
+  observer2 = new MutationObserver(removeStyleDiv);
+  observer2.observe(document.body, { childList: true, subtree: true });
 }
 
 function startReceiver() {
@@ -47,7 +60,7 @@ function startReceiver() {
   mediaPlayer.style.display = "none";
   document.body.append(mediaPlayer);
   
-  setupMutationObserver();
+  setupMutationObservers();
 
   window.castReceiverContext = cast.framework.CastReceiverContext.getInstance();
   window.castReceiverContext.setLoggerLevel(cast.framework.LoggerLevel.DEBUG);
@@ -67,4 +80,7 @@ function startReceiver() {
   window.castReceiverContext.start(options);
 }
 
+var observer1, observer2;
+
 loadScript(cast_api, startReceiver);
+
