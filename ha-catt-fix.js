@@ -56,13 +56,19 @@ function setupMutationObservers() {
 }
 
 function startReceiver() {
+  window.castReceiverContext = cast.framework.CastReceiverContext.getInstance();
+  const deviceCaps = window.castReceiverContext.getDeviceCapabilities();
+
+  if (deviceCaps === null) {
+    return;
+  }
+
   const mediaPlayer = document.createElement("cast-media-player");
   mediaPlayer.style.display = "none";
   document.body.append(mediaPlayer);
   
   setupMutationObservers();
 
-  window.castReceiverContext = cast.framework.CastReceiverContext.getInstance();
   window.castReceiverContext.setLoggerLevel(cast.framework.LoggerLevel.DEBUG);
 
   window.castReceiverContext.addEventListener(cast.framework.system.EventType.READY, function(event) {
