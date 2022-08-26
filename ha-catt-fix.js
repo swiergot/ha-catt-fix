@@ -63,11 +63,11 @@ function startReceiver() {
     return;
   }
 
+  setupMutationObservers();
+
   const mediaPlayer = document.createElement("cast-media-player");
   mediaPlayer.style.display = "none";
   document.body.append(mediaPlayer);
-  
-  setupMutationObservers();
 
   window.castReceiverContext.setLoggerLevel(cast.framework.LoggerLevel.DEBUG);
 
