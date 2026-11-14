@@ -56,6 +56,12 @@ function setupMutationObservers() {
 }
 
 function startReceiver() {
+  // Only start if the Cast receiver framework is actually available,
+  // and only once (both onload and onreadystatechange may fire).
+  if (typeof cast === "undefined" || !cast.framework || window.castReceiverContext) {
+    return;
+  }
+
   window.castReceiverContext = cast.framework.CastReceiverContext.getInstance();
   const deviceCaps = window.castReceiverContext.getDeviceCapabilities();
 
@@ -77,16 +83,20 @@ function startReceiver() {
   });
 
   window.playerManager = window.castReceiverContext.getPlayerManager();
-  
+
   const options = new cast.framework.CastReceiverOptions();
-  
+
   options.statusText = "Application is starting";
   options.disableIdleTimeout = true;
-  
+
   window.castReceiverContext.start(options);
 }
 
 var observer1, observer2;
 
-loadScript(cast_api, startReceiver);
-
+// Only load the Cast receiver framework on Cast devices (Chromecast,
+// Nest Hub, ...), which have "CrKey" in their user agent. Other browsers
+// (phones, tablets, desktops) skip it, which avoids errors in the HA log.
+if (navigator.userAgent.includes("CrKey")) {
+  loadScript(cast_api, startReceiver);
+}
